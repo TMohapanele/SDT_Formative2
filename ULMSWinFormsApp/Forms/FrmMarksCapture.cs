@@ -23,18 +23,28 @@ namespace ULMSWinFormsApp.Forms
 
             record.StudentId = txtMarkStudentId.Text;
             record.StudentName = txtMarkStudentName.Text;
-            record.Subject1 = Convert.ToDouble(txtSubject1.Text);
-            record.Subject2 = Convert.ToDouble(txtSubject2.Text);
-            record.Subject3 = Convert.ToDouble(txtSubject3.Text);
 
-            // Intentional faulty calculation
-            record.Average = record.Subject1 + record.Subject2 + record.Subject3 / 3;
+            double sub1, sub2, sub3;
+
+            if (!double.TryParse(txtSubject1.Text, out sub1) ||
+                !double.TryParse(txtSubject2.Text, out sub2) ||
+                !double.TryParse(txtSubject3.Text, out sub3))
+            {
+                MessageBox.Show("Please enter valid numeric values for all subjects.", "Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            record.Subject1 = sub1;
+            record.Subject2 = sub2;
+            record.Subject3 = sub3;
+
+            // Corrected average calculation logic
+            record.Average = (record.Subject1 + record.Subject2 + record.Subject3) / 3;
 
             if (record.Average >= 50)
             {
                 record.ResultStatus = "PASS";
             }
-            else
+                        else
             {
                 record.ResultStatus = "FAIL";
             }
